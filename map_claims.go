@@ -3,13 +3,14 @@ package jwt
 import (
 	"encoding/json"
 	"errors"
-	// "fmt"
 )
 
+// MapClaims :
 // Claims type that uses the map[string]interface{} for JSON decoding
 // This is the default claims type if you don't supply one
 type MapClaims map[string]interface{}
 
+// VerifyAudience :
 // Compares the aud claim against cmp.
 // If required is false, this method will return true if the value matches or is unset
 func (m MapClaims) VerifyAudience(cmp string, req bool) bool {
@@ -17,6 +18,7 @@ func (m MapClaims) VerifyAudience(cmp string, req bool) bool {
 	return verifyAud(aud, cmp, req)
 }
 
+// VerifyExpiresAt :
 // Compares the exp claim against cmp.
 // If required is false, this method will return true if the value matches or is unset
 func (m MapClaims) VerifyExpiresAt(cmp int64, req bool) bool {
@@ -30,6 +32,7 @@ func (m MapClaims) VerifyExpiresAt(cmp int64, req bool) bool {
 	return req == false
 }
 
+// VerifyIssuedAt :
 // Compares the iat claim against cmp.
 // If required is false, this method will return true if the value matches or is unset
 func (m MapClaims) VerifyIssuedAt(cmp int64, req bool) bool {
@@ -43,6 +46,7 @@ func (m MapClaims) VerifyIssuedAt(cmp int64, req bool) bool {
 	return req == false
 }
 
+// VerifyIssuer :
 // Compares the iss claim against cmp.
 // If required is false, this method will return true if the value matches or is unset
 func (m MapClaims) VerifyIssuer(cmp string, req bool) bool {
@@ -50,6 +54,7 @@ func (m MapClaims) VerifyIssuer(cmp string, req bool) bool {
 	return verifyIss(iss, cmp, req)
 }
 
+// VerifyNotBefore :
 // Compares the nbf claim against cmp.
 // If required is false, this method will return true if the value matches or is unset
 func (m MapClaims) VerifyNotBefore(cmp int64, req bool) bool {
@@ -63,6 +68,7 @@ func (m MapClaims) VerifyNotBefore(cmp int64, req bool) bool {
 	return req == false
 }
 
+// Valid :
 // Validates time based claims "exp, iat, nbf".
 // There is no accounting for clock skew.
 // As well, if any of the above claims are not in the token, it will still

@@ -7,12 +7,14 @@ import (
 	"strings"
 )
 
+// Parser :
 type Parser struct {
 	ValidMethods         []string // If populated, only these methods will be considered valid
 	UseJSONNumber        bool     // Use JSON Number format in JSON decoder
 	SkipClaimsValidation bool     // Skip claims validation during token parsing
 }
 
+// Parse :
 // Parse, validate, and return a token.
 // keyFunc will receive the parsed token and should return the key for validating.
 // If everything is kosher, err will be nil
@@ -20,6 +22,7 @@ func (p *Parser) Parse(tokenString string, keyFunc Keyfunc) (*Token, error) {
 	return p.ParseWithClaims(tokenString, MapClaims{}, keyFunc)
 }
 
+// ParseWithClaims :
 func (p *Parser) ParseWithClaims(tokenString string, claims Claims, keyFunc Keyfunc) (*Token, error) {
 	token, parts, err := p.ParseUnverified(tokenString, claims)
 	if err != nil {
@@ -87,6 +90,7 @@ func (p *Parser) ParseWithClaims(tokenString string, claims Claims, keyFunc Keyf
 	return token, vErr
 }
 
+// ParseUnverified :
 // WARNING: Don't use this method unless you know what you're doing
 //
 // This method parses the token but doesn't validate the signature. It's only

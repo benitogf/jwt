@@ -23,10 +23,11 @@ const (
 	ValidationErrorIssuedAt      // IAT validation failed
 	ValidationErrorIssuer        // ISS validation failed
 	ValidationErrorNotValidYet   // NBF validation failed
-	ValidationErrorId            // JTI validation failed
+	ValidationErrorID            // JTI validation failed
 	ValidationErrorClaimsInvalid // Generic claims validation error
 )
 
+// NewValidationError :
 // Helper for constructing a ValidationError with a string error message
 func NewValidationError(errorText string, errorFlags uint32) *ValidationError {
 	return &ValidationError{
@@ -35,6 +36,7 @@ func NewValidationError(errorText string, errorFlags uint32) *ValidationError {
 	}
 }
 
+// ValidationError :
 // The error from Parse if token is not valid
 type ValidationError struct {
 	Inner  error  // stores the error returned by external dependencies, i.e.: KeyFunc
@@ -42,6 +44,7 @@ type ValidationError struct {
 	text   string // errors that do not have a valid error just have text
 }
 
+// Error :
 // Validation error is an error type
 func (e ValidationError) Error() string {
 	if e.Inner != nil {
