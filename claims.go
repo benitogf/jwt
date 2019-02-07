@@ -35,11 +35,12 @@ type StandardClaims struct {
 func (c StandardClaims) Valid() error {
 	vErr := new(ValidationError)
 	now := TimeFunc().UnixNano()
+	c.ExpiresAt *= 1000000000
 
 	// The claims below are optional, by default, so if they are set to the
 	// default value in Go, let's not fail the verification for them.
 	if c.VerifyExpiresAt(now, false) == false {
-		delta := time.Unix(now, 0).Sub(time.Unix(c.ExpiresAt, 0))
+		delta := time.Unix(0, now).Sub(time.Unix(0, c.ExpiresAt))
 		vErr.Inner = fmt.Errorf("token is expired by %v", delta)
 		vErr.Errors |= ValidationErrorExpired
 	}
